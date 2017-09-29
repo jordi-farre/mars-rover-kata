@@ -26,13 +26,6 @@ enum Direction {
         this.value = value;
     }
 
-    public static Direction get(char value) {
-        return Arrays.stream(values())
-                .filter(direction -> direction.value == value)
-                .findFirst()
-                .get();
-    }
-
     public Direction left() {
         return left;
     }

@@ -29,18 +29,34 @@ public class Rover {
     private void moveForward() {
         switch (this.direction) {
             case EAST:
-                this.x = (x + 1) % MAX_WIDTH;
+                incrementX();
                 break;
             case WEST:
-                this.x = this.x == 0 ? 9 : this.x - 1;
+                decrementX();
                 break;
             case NORTH:
-                this.y = this.y == 0 ? 9 : this.y - 1;
+                decrementY();
                 break;
             case SOUTH:
-                this.y = (y + 1) % MAX_HEIGHT;
+                incrementY();
                 break;
         }
+    }
+
+    private void incrementY() {
+        this.y = (y + 1) % MAX_HEIGHT;
+    }
+
+    private void decrementY() {
+        this.y = this.y == 0 ? 9 : this.y - 1;
+    }
+
+    private void decrementX() {
+        this.x = this.x == 0 ? 9 : this.x - 1;
+    }
+
+    private void incrementX() {
+        this.x = (x + 1) % MAX_WIDTH;
     }
 
     private void turnLeft() {
