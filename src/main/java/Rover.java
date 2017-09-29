@@ -3,7 +3,7 @@ public class Rover {
     public static final int MAX_WIDTH = 10;
     public static final int MAX_HEIGHT = 10;
 
-    private Coordinate direction = Coordinate.NORTH;
+    private Direction direction = Direction.NORTH;
 
     private int x;
 
@@ -27,14 +27,19 @@ public class Rover {
     }
 
     private void moveForward() {
-        if (this.direction == Coordinate.EAST) {
-            this.x = (x + 1) % MAX_WIDTH;
-        } else if (this.direction == Coordinate.WEST) {
-            this.x = this.x == 0 ? 9 : this.x - 1;
-        } else if (this.direction == Coordinate.NORTH) {
-            this.y = this.y == 0 ? 9 : this.y - 1;
-        } else if (this.direction == Coordinate.SOUTH) {
-            this.y = (y + 1) % MAX_HEIGHT;
+        switch (this.direction) {
+            case EAST:
+                this.x = (x + 1) % MAX_WIDTH;
+                break;
+            case WEST:
+                this.x = this.x == 0 ? 9 : this.x - 1;
+                break;
+            case NORTH:
+                this.y = this.y == 0 ? 9 : this.y - 1;
+                break;
+            case SOUTH:
+                this.y = (y + 1) % MAX_HEIGHT;
+                break;
         }
     }
 

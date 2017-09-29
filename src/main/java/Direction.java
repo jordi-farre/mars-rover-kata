@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-enum Coordinate {
+enum Direction {
 
     NORTH('N'),
     EAST('E'),
@@ -9,8 +9,8 @@ enum Coordinate {
 
     private char value;
 
-    private Coordinate left;
-    private Coordinate right;
+    private Direction left;
+    private Direction right;
     static {
         NORTH.left = WEST;
         NORTH.right = EAST;
@@ -22,22 +22,22 @@ enum Coordinate {
         WEST.right = NORTH;
     }
 
-    Coordinate(char value) {
+    Direction(char value) {
         this.value = value;
     }
 
-    public static Coordinate get(char value) {
+    public static Direction get(char value) {
         return Arrays.stream(values())
-                .filter(coordinate -> coordinate.value == value)
+                .filter(direction -> direction.value == value)
                 .findFirst()
                 .get();
     }
 
-    public Coordinate left() {
+    public Direction left() {
         return left;
     }
 
-    public Coordinate right() {
+    public Direction right() {
         return right;
     }
 
