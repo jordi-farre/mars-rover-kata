@@ -32,50 +32,47 @@ public class Grid {
                 turnLeft();
                 break;
             case 'F':
-                moveForward();
-                break;
             case 'B':
-                moveBackward();
+                move(command);
                 break;
         }
     }
 
-    private void moveForward() {
+    private void move(char command) {
         Point newPosition = this.position;
         switch (this.direction) {
             case EAST:
-                newPosition = incrementX();
+                newPosition = moveToEast(command);
                 break;
             case WEST:
-                newPosition = decrementX();
+                newPosition = moveToWest(command);
                 break;
             case NORTH:
-                newPosition = decrementY();
+                newPosition = moveToNorth(command);
                 break;
             case SOUTH:
-                newPosition = incrementY();
+                newPosition = moveToSouth(command);
                 break;
         }
         checkObstaclesAndMoveTo(newPosition);
     }
 
-    private void moveBackward() {
-        Point newPosition = this.position;
-        switch (this.direction) {
-            case EAST:
-                newPosition = decrementX();
-                break;
-            case WEST:
-                newPosition = incrementX();
-                break;
-            case NORTH:
-                newPosition = incrementY();
-                break;
-            case SOUTH:
-                newPosition = decrementY();
-                break;
-        }
-        checkObstaclesAndMoveTo(newPosition);
+    private Point moveToSouth(char command) {
+        return command == 'F' ? incrementY() : decrementY();
+    }
+
+    private Point moveToNorth(char command) {
+        return command == 'F' ? decrementY() : incrementY();
+    }
+
+    private Point moveToWest(char command) {
+        return command == 'F' ? decrementX() : incrementX();
+    }
+
+    private Point moveToEast(char command) {
+        Point newPosition;
+        newPosition = command == 'F' ? incrementX() : decrementX();
+        return newPosition;
     }
 
     private void checkObstaclesAndMoveTo(Point newPosition) {
