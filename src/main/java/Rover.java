@@ -1,65 +1,49 @@
-import java.util.Arrays;
-
 public class Rover {
 
-    private char direction = 'N';
+    public static final int MAX_WIDTH = 10;
+    public static final int MAX_HEIGHT = 10;
+
+    private Coordinate direction = Coordinate.NORTH;
+
+    private int x;
+
+    private int y;
 
     public String execute(String commands) {
         commands.chars()
                 .mapToObj(i -> (char) i)
-                .forEach(this::calculateDirection);
-        return "0:0:" + this.direction;
+                .forEach(this::calculatePosition);
+        return x + ":" + y +  ":" + this.direction.value();
     }
 
-    private enum Coordinate {
-
-        NORTH('N'),
-        EAST('E'),
-        SOUTH('S'),
-        WEST('W');
-
-        private char value;
-        private Coordinate left;
-        private Coordinate right;
-
-        static {
-            NORTH.left = WEST;
-            NORTH.right = EAST;
-            EAST.left = NORTH;
-            EAST.right = SOUTH;
-            SOUTH.left = EAST;
-            SOUTH.right = WEST;
-            WEST.left = SOUTH;
-            WEST.right = NORTH;
-        }
-
-        Coordinate(char value) {
-            this.value = value;
-        }
-
-        public static Coordinate get(char value) {
-            return Arrays.stream(values())
-                    .filter(coordinate -> coordinate.value == value)
-                    .findFirst()
-                    .get();
-        }
-
-        public Coordinate getLeft() {
-            return left;
-        }
-
-        public Coordinate getRight() {
-            return right;
-        }
-    }
-
-    private void calculateDirection(char command) {
-        Coordinate actualCoordinate = Coordinate.get(this.direction);
+    private void calculatePosition(char command) {
         if (command == 'R') {
-            this.direction = actualCoordinate.right.value;
-        } else {
-            this.direction = actualCoordinate.left.value;
+            turnRight();
+        } else if (command == 'L') {
+            turnLeft();
+        } else if (command == 'F') {
+            moveForward();
         }
+    }
+
+    private void moveForward() {
+        if (this.direction == Coordinate.EAST) {
+            this.x = (x + 1) % MAX_WIDTH;
+        } else if (this.direction == Coordinate.WEST) {
+            this.x = this.x == 0 ? 9 : this.x - 1;
+        } else if (this.direction == Coordinate.NORTH) {
+            this.y = this.y == 0 ? 9 : this.y - 1;
+        } else if (this.direction == Coordinate.SOUTH) {
+            this.y = (y + 1) % MAX_HEIGHT;
+        }
+    }
+
+    private void turnLeft() {
+        this.direction = direction.left();
+    }
+
+    private void turnRight() {
+        this.direction = direction.right();
     }
 
 }
