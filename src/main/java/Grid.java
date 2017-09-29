@@ -5,9 +5,7 @@ public class Grid {
 
     private Direction direction = Direction.NORTH;
 
-    private int x;
-
-    private int y;
+    private Point position = new Point(0, 0);
 
     public void calculatePosition(char command) {
         if (command == 'R') {
@@ -56,19 +54,23 @@ public class Grid {
     }
 
     private void incrementY() {
-        this.y = (y + 1) % MAX_HEIGHT;
+        int y = (this.position.y() + 1) % MAX_HEIGHT;
+        this.position = new Point(this.position.x(), y);
     }
 
     private void decrementY() {
-        this.y = this.y == 0 ? 9 : this.y - 1;
+        int y = this.position.y() == 0 ? 9 : this.position.y() - 1;
+        this.position = new Point(this.position.x(), y);
     }
 
     private void decrementX() {
-        this.x = this.x == 0 ? 9 : this.x - 1;
+        int x = this.position.x() == 0 ? 9 : this.position.x() - 1;
+        this.position = new Point(x, this.position.y());
     }
 
     private void incrementX() {
-        this.x = (x + 1) % MAX_WIDTH;
+        int x = (this.position.x() + 1) % MAX_WIDTH;
+        this.position = new Point(x, this.position.y());
     }
 
     private void turnLeft() {
@@ -80,7 +82,7 @@ public class Grid {
     }
 
     public String reportPosition() {
-        return this.x + ":" + y +  ":" + this.direction.value();
+        return this.position.x() + ":" + this.position.y() +  ":" + this.direction.value();
     }
 
 }
