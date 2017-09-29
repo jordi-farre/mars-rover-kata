@@ -36,5 +36,14 @@ public class RoverShould {
         assertThat(finalPosition, is(result));
     }
 
+    @ParameterizedTest(name = "commands: {0} -- result: {1}")
+    @CsvSource({"RB, 9:0:E", "RBBBBBB, 4:0:E", "RBBBBBBBBBB, 0:0:E",
+            "RBBBBBBBBBBBBBBB, 5:0:E", "LB, 1:0:W", "LBBBBBBBBBBBBBBB, 5:0:W",
+            "B, 0:1:N", "BBBBBBBBBBBBBB, 0:4:N", "RRB, 0:9:S", "RRBBBBBBBBBB, 0:0:S", "RRBBBBBBBBBBBBB, 0:7:S"})
+    public void move_backward(String commands, String result) {
+        String finalPosition = this.rover.execute(commands);
+
+        assertThat(finalPosition, is(result));
+    }
 
 }

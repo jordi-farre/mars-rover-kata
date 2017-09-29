@@ -23,6 +23,8 @@ public class Rover {
             turnLeft();
         } else if (command == 'F') {
             moveForward();
+        } else if (command == 'B') {
+            moveBackward();
         }
     }
 
@@ -39,6 +41,23 @@ public class Rover {
                 break;
             case SOUTH:
                 incrementY();
+                break;
+        }
+    }
+
+    private void moveBackward() {
+        switch (this.direction) {
+            case EAST:
+                decrementX();
+                break;
+            case WEST:
+                incrementX();
+                break;
+            case NORTH:
+                incrementY();
+                break;
+            case SOUTH:
+                decrementY();
                 break;
         }
     }
