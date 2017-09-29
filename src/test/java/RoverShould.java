@@ -1,5 +1,3 @@
-import org.hamcrest.core.Is;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -8,7 +6,7 @@ import static org.hamcrest.core.Is.is;
 
 public class RoverShould {
 
-    private Rover rover = new Rover();
+    private Rover rover = new Rover(new Grid());
 
     @ParameterizedTest(name = "commands: {0} -- result: {1}")
     @CsvSource({"R, 0:0:E", "RR, 0:0:S", "RRR, 0:0:W", "RRRR, 0:0:N"})
