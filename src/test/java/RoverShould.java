@@ -1,6 +1,9 @@
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -39,6 +42,16 @@ public class RoverShould {
             "RBBBBBBBBBBBBBBB, 5:0:E", "LB, 1:0:W", "LBBBBBBBBBBBBBBB, 5:0:W",
             "B, 0:1:N", "BBBBBBBBBBBBBB, 0:4:N", "RRB, 0:9:S", "RRBBBBBBBBBB, 0:0:S", "RRBBBBBBBBBBBBB, 0:7:S"})
     public void move_backward(String commands, String result) {
+        String finalPosition = this.rover.execute(commands);
+
+        assertThat(finalPosition, is(result));
+    }
+
+    @ParameterizedTest(name = "commands: {0} -- result: {1}")
+    @CsvSource({"RFFF, O:2:0:E", "RFFFRFFFFF, O:2:0:E"})
+    public void find_obstacle(String commands, String result) {
+        List<Point> obstacles = Arrays.asList(new Point(3, 0));
+        this.rover = new Rover(new Grid(obstacles));
         String finalPosition = this.rover.execute(commands);
 
         assertThat(finalPosition, is(result));

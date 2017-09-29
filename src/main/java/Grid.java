@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Grid {
 
     public static final int MAX_WIDTH = 10;
@@ -6,8 +9,21 @@ public class Grid {
     private Direction direction = Direction.NORTH;
 
     private Point position = new Point(0, 0);
+    private List<Point> obstacles;
+    private boolean obstacleFound;
+
+    public Grid() {
+        this.obstacles = new ArrayList<>();
+    }
+
+    public Grid(List<Point> obstacles) {
+        this.obstacles = obstacles;
+    }
 
     public void calculatePosition(char command) {
+        if (this.obstacleFound) {
+            return;
+        }
         if (command == 'R') {
             turnRight();
         } else if (command == 'L') {
@@ -20,57 +36,74 @@ public class Grid {
     }
 
     private void moveForward() {
+        Point newPosition = this.position;
         switch (this.direction) {
             case EAST:
-                incrementX();
+                newPosition = incrementX();
                 break;
             case WEST:
-                decrementX();
+                newPosition = decrementX();
                 break;
             case NORTH:
-                decrementY();
+                newPosition = decrementY();
                 break;
             case SOUTH:
-                incrementY();
+                newPosition = incrementY();
                 break;
         }
+        moveIfNoObstacleFound(newPosition);
     }
 
     private void moveBackward() {
+        Point newPosition = this.position;
         switch (this.direction) {
             case EAST:
-                decrementX();
+                newPosition = decrementX();
                 break;
             case WEST:
-                incrementX();
+                newPosition = incrementX();
                 break;
             case NORTH:
-                incrementY();
+                newPosition = incrementY();
                 break;
             case SOUTH:
-                decrementY();
+                newPosition = decrementY();
                 break;
+        }
+        moveIfNoObstacleFound(newPosition);
+    }
+
+    private void moveIfNoObstacleFound(Point newPosition) {
+        boolean isAnObstacle = this.isAnObstacle(newPosition);
+        if (isAnObstacle) {
+            this.obstacleFound = true;
+        } else {
+            this.position = newPosition;
         }
     }
 
-    private void incrementY() {
+    private Point incrementY() {
         int y = (this.position.y() + 1) % MAX_HEIGHT;
-        this.position = new Point(this.position.x(), y);
+        return new Point(this.position.x(), y);
     }
 
-    private void decrementY() {
+    private Point decrementY() {
         int y = this.position.y() == 0 ? 9 : this.position.y() - 1;
-        this.position = new Point(this.position.x(), y);
+        return new Point(this.position.x(), y);
     }
 
-    private void decrementX() {
+    private Point decrementX() {
         int x = this.position.x() == 0 ? 9 : this.position.x() - 1;
-        this.position = new Point(x, this.position.y());
+        return new Point(x, this.position.y());
     }
 
-    private void incrementX() {
+    private Point incrementX() {
         int x = (this.position.x() + 1) % MAX_WIDTH;
-        this.position = new Point(x, this.position.y());
+        return new Point(x, this.position.y());
+    }
+
+    private boolean isAnObstacle(Point position) {
+        return this.obstacles.contains(position);
     }
 
     private void turnLeft() {
@@ -82,7 +115,8 @@ public class Grid {
     }
 
     public String reportPosition() {
-        return this.position.x() + ":" + this.position.y() +  ":" + this.direction.value();
+        String obstaclePrefix = this.obstacleFound ? "O:" : "";
+        return obstaclePrefix + this.position.x() + ":" + this.position.y() +  ":" + this.direction.value();
     }
 
 }
