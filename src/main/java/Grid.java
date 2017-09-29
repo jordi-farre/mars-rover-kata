@@ -24,14 +24,19 @@ public class Grid {
         if (this.obstacleFound) {
             return;
         }
-        if (command == 'R') {
-            turnRight();
-        } else if (command == 'L') {
-            turnLeft();
-        } else if (command == 'F') {
-            moveForward();
-        } else if (command == 'B') {
-            moveBackward();
+        switch (command) {
+            case 'R':
+                turnRight();
+                break;
+            case 'L':
+                turnLeft();
+                break;
+            case 'F':
+                moveForward();
+                break;
+            case 'B':
+                moveBackward();
+                break;
         }
     }
 
@@ -51,7 +56,7 @@ public class Grid {
                 newPosition = incrementY();
                 break;
         }
-        moveIfNoObstacleFound(newPosition);
+        checkObstaclesAndMoveTo(newPosition);
     }
 
     private void moveBackward() {
@@ -70,12 +75,11 @@ public class Grid {
                 newPosition = decrementY();
                 break;
         }
-        moveIfNoObstacleFound(newPosition);
+        checkObstaclesAndMoveTo(newPosition);
     }
 
-    private void moveIfNoObstacleFound(Point newPosition) {
-        boolean isAnObstacle = this.isAnObstacle(newPosition);
-        if (isAnObstacle) {
+    private void checkObstaclesAndMoveTo(Point newPosition) {
+        if (this.obstacles.contains(newPosition)) {
             this.obstacleFound = true;
         } else {
             this.position = newPosition;
@@ -100,10 +104,6 @@ public class Grid {
     private Point incrementX() {
         int x = (this.position.x() + 1) % MAX_WIDTH;
         return new Point(x, this.position.y());
-    }
-
-    private boolean isAnObstacle(Point position) {
-        return this.obstacles.contains(position);
     }
 
     private void turnLeft() {
