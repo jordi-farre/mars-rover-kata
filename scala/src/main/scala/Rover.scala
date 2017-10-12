@@ -21,7 +21,7 @@ class Rover(grid: Grid) {
       if (command == 'F' || command == 'B') move(command)
     }
     val prefix = if (obstacleFound) "O:" else ""
-    prefix + position.x + ":" + position.y + ":" + direction
+    s"$prefix${position.x}:${position.y}:$direction"
   }
 
   def turnRight(): Unit = {
@@ -34,19 +34,51 @@ class Rover(grid: Grid) {
 
   def move(command: Char): Unit = {
     var newPosition: Position = Position(0, 0)
-    if ((command == 'F' && direction == 'E') || (command == 'B' && direction == 'W'))
+    if (forwardEast(command) || backwardWest(command))
       newPosition = grid.incrementX(position)
-    if ((command == 'F' && direction == 'S') || (command == 'B' && direction == 'N'))
+    if (forwardSouth(command) || backwardNorth(command))
       newPosition = grid.incrementY(position)
-    if ((command == 'F' && direction == 'W') || (command == 'B' && direction == 'E'))
+    if (forwardWest(command) || backwardEast(command))
       newPosition = grid.decrementX(position)
-    if ((command == 'F' && direction == 'N') || (command == 'B' && direction == 'S'))
+    if (forwardNorth(command) || backwardSouth(command))
       newPosition = grid.decrementY(position)
-    if (grid.obstacleInPosition(newPosition)) {
+    if (grid.obstacleIn(newPosition)) {
       obstacleFound = true
     } else {
       position = newPosition
     }
+  }
+
+  private def backwardSouth(command: Char) = {
+    command == 'B' && direction == 'S'
+  }
+
+  private def forwardNorth(command: Char) = {
+    command == 'F' && direction == 'N'
+  }
+
+  private def backwardEast(command: Char) = {
+    command == 'B' && direction == 'E'
+  }
+
+  private def forwardWest(command: Char) = {
+    command == 'F' && direction == 'W'
+  }
+
+  private def backwardNorth(command: Char) = {
+    command == 'B' && direction == 'N'
+  }
+
+  private def forwardSouth(command: Char) = {
+    command == 'F' && direction == 'S'
+  }
+
+  private def backwardWest(command: Char) = {
+    command == 'B' && direction == 'W'
+  }
+
+  private def forwardEast(command: Char) = {
+    command == 'F' && direction == 'E'
   }
 
 }

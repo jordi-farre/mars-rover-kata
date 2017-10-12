@@ -37,6 +37,6 @@ class Grid(obstacles: List[Position]) {
     position.copy(y = if (position.y == 0) MAX_HEIGHT - 1 else position.y - 1)
   }
 
-  def obstacleInPosition(position: Position): Boolean = obstacles.contains(position)
+  def obstacleIn(position: Position): Boolean = obstacles.contains(position)
 
 }
