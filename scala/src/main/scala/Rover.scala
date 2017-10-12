@@ -35,13 +35,13 @@ class Rover(grid: Grid) {
 
   def move(command: Char): Unit = {
     if ((command == 'F' && direction == 'E') || (command == 'B' && direction == 'W'))
-      x = (x + 1) % MAX_WIDTH
+      x = grid.incrementX(x)
     if ((command == 'F' && direction == 'S') || (command == 'B' && direction == 'N'))
-      y = (y + 1) % MAX_HEIGHT
+      y = grid.incrementY(y)
     if ((command == 'F' && direction == 'W') || (command == 'B' && direction == 'E'))
-      if (x == 0) x = MAX_WIDTH - 1 else x -= 1
+      x = grid.decrementX(x)
     if ((command == 'F' && direction == 'N') || (command == 'B' && direction == 'S'))
-      if (y == 0) y = MAX_HEIGHT - 1 else y -= 1
+      y = grid.decrementY(y)
   }
 
 }

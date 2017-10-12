@@ -21,4 +21,13 @@ class Grid {
     }
   }
 
+  def incrementX(x: Int): Int = (x + 1) % MAX_WIDTH
+
+  def incrementY(y: Int): Int = (y + 1) % MAX_HEIGHT
+
+  def decrementX(x: Int): Int = if (x == 0) MAX_WIDTH - 1 else x - 1
+
+  def decrementY(y: Int): Int = if (y == 0) MAX_HEIGHT - 1 else y - 1
+
+
 }
