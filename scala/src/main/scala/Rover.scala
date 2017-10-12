@@ -3,6 +3,10 @@ class Rover {
 
   var direction = 'N'
 
+  var x: Int = 0
+
+  var y: Int = 0
+
   var directions = List('N', 'E', 'S', 'W')
 
   def execute(commands: String): String =
@@ -14,7 +18,8 @@ class Rover {
   def processCommand(command: Char): String = {
     if (command == 'R') turnRight()
     if (command == 'L') turnLeft()
-    "0:0:" + direction
+    if (command == 'F') moveForward()
+    x + ":" + y + ":" + direction
   }
 
   def turnRight(): Unit = {
@@ -29,6 +34,13 @@ class Rover {
     } else {
       direction = directions(actualDirectionIndex - 1)
     }
+  }
+
+  def moveForward(): Unit = {
+    if (direction == 'E') x = (x + 1) % 10
+    if (direction == 'S') y = (y + 1) % 10
+    if (direction == 'W') if (x == 0) x = 10 - 1 else x = x - 1
+    if (direction == 'N') if (y == 0) y = 10 - 1 else y = y - 1
   }
 
 }
