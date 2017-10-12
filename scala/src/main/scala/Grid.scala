@@ -1,5 +1,5 @@
 
-class Grid {
+class Grid(obstacles: List[Obstacle]) {
 
   val directions = List('N', 'E', 'S', 'W')
 
@@ -29,5 +29,7 @@ class Grid {
 
   def decrementY(y: Int): Int = if (y == 0) MAX_HEIGHT - 1 else y - 1
 
+  def obstacleInPosition(x: Int, y: Int): Boolean =
+    obstacles.exists(obstacle => obstacle.x == x && obstacle.y == y)
 
 }

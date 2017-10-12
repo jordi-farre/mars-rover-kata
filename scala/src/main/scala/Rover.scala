@@ -11,6 +11,8 @@ class Rover(grid: Grid) {
 
   val MAX_HEIGHT = 10
 
+  var obstacleFound = false
+
   def execute(commands: String): String =
     commands
       .toCharArray
@@ -19,10 +21,13 @@ class Rover(grid: Grid) {
 
 
   def processCommand(command: Char): String = {
-    if (command == 'R') turnRight()
-    if (command == 'L') turnLeft()
-    if (command == 'F' || command == 'B') move(command)
-    x + ":" + y + ":" + direction
+    if (!obstacleFound) {
+      if (command == 'R') turnRight()
+      if (command == 'L') turnLeft()
+      if (command == 'F' || command == 'B') move(command)
+    }
+    val prefix = if (obstacleFound) "O:" else ""
+    prefix + x + ":" + y + ":" + direction
   }
 
   def turnRight(): Unit = {
@@ -34,14 +39,22 @@ class Rover(grid: Grid) {
   }
 
   def move(command: Char): Unit = {
+    var newX = 0
+    var newY = 0
     if ((command == 'F' && direction == 'E') || (command == 'B' && direction == 'W'))
-      x = grid.incrementX(x)
+      newX = grid.incrementX(x)
     if ((command == 'F' && direction == 'S') || (command == 'B' && direction == 'N'))
-      y = grid.incrementY(y)
+      newY = grid.incrementY(y)
     if ((command == 'F' && direction == 'W') || (command == 'B' && direction == 'E'))
-      x = grid.decrementX(x)
+      newX = grid.decrementX(x)
     if ((command == 'F' && direction == 'N') || (command == 'B' && direction == 'S'))
-      y = grid.decrementY(y)
+      newY = grid.decrementY(y)
+    if (grid.obstacleInPosition(newX, newY)) {
+      obstacleFound = true
+    } else {
+      x = newX
+      y = newY
+    }
   }
 
 }

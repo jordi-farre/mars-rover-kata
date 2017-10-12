@@ -3,7 +3,7 @@ import org.scalatest.prop.TableDrivenPropertyChecks
 
 class RoverSpec extends FlatSpec with TableDrivenPropertyChecks  {
 
-  val grid: Grid = new Grid()
+  val grid: Grid = new Grid(List.empty)
 
   val turnRightSamples =
     Table(
@@ -81,6 +81,20 @@ class RoverSpec extends FlatSpec with TableDrivenPropertyChecks  {
     assert(result == output)
   }
 
+  val obstaclesSamples =
+    Table(
+      ("commands", "output"),
+      ("RFFF", "O:2:0:E"),
+      ("BBBBBBBBB", "O:0:8:N"),
+      ("BBBBBBBBBRFFFFF", "O:0:8:N")
+    )
+
+  forAll(obstaclesSamples) { (commands: String, output: String) =>
+    val obstacles = List(new Obstacle(3, 0), new Obstacle(0, 9))
+    val result = new Rover(new Grid(obstacles)).execute(commands)
+
+    assert(result == output)
+  }
 
 
 }
