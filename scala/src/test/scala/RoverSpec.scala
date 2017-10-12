@@ -90,7 +90,7 @@ class RoverSpec extends FlatSpec with TableDrivenPropertyChecks  {
     )
 
   forAll(obstaclesSamples) { (commands: String, output: String) =>
-    val obstacles = List(new Obstacle(3, 0), new Obstacle(0, 9))
+    val obstacles = List(new Position(3, 0), new Position(0, 9))
     val result = new Rover(new Grid(obstacles)).execute(commands)
 
     assert(result == output)

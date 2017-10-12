@@ -1,5 +1,5 @@
 
-class Grid(obstacles: List[Obstacle]) {
+class Grid(obstacles: List[Position]) {
 
   val directions = List('N', 'E', 'S', 'W')
 
@@ -21,15 +21,22 @@ class Grid(obstacles: List[Obstacle]) {
     }
   }
 
-  def incrementX(x: Int): Int = (x + 1) % MAX_WIDTH
+  def incrementX(position: Position): Position = {
+    position.copy(x = (position.x + 1) % MAX_WIDTH)
+  }
 
-  def incrementY(y: Int): Int = (y + 1) % MAX_HEIGHT
+  def incrementY(position: Position): Position = {
+    position.copy(y = (position.y + 1) % MAX_HEIGHT)
+  }
 
-  def decrementX(x: Int): Int = if (x == 0) MAX_WIDTH - 1 else x - 1
+  def decrementX(position: Position): Position = {
+    position.copy(x = if (position.x == 0) MAX_WIDTH - 1 else position.x - 1)
+  }
 
-  def decrementY(y: Int): Int = if (y == 0) MAX_HEIGHT - 1 else y - 1
+  def decrementY(position: Position): Position = {
+    position.copy(y = if (position.y == 0) MAX_HEIGHT - 1 else position.y - 1)
+  }
 
-  def obstacleInPosition(x: Int, y: Int): Boolean =
-    obstacles.exists(obstacle => obstacle.x == x && obstacle.y == y)
+  def obstacleInPosition(position: Position): Boolean = obstacles.contains(position)
 
 }
