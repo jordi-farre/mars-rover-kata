@@ -3,7 +3,7 @@ import org.scalatest.prop.TableDrivenPropertyChecks
 
 class RoverSpec extends FlatSpec with TableDrivenPropertyChecks  {
 
-  val rover: Rover = new Rover()
+  val grid: Grid = new Grid()
 
   val turnRightSamples =
     Table(
@@ -15,7 +15,7 @@ class RoverSpec extends FlatSpec with TableDrivenPropertyChecks  {
     )
 
   forAll(turnRightSamples) { (commands: String, output: String) =>
-    val result = new Rover().execute(commands)
+    val result = new Rover(grid).execute(commands)
 
     assert(result == output)
   }
@@ -30,7 +30,7 @@ class RoverSpec extends FlatSpec with TableDrivenPropertyChecks  {
     )
 
   forAll(turnLeftSamples) { (commands: String, output: String) =>
-    val result = new Rover().execute(commands)
+    val result = new Rover(grid).execute(commands)
 
     assert(result == output)
   }
@@ -53,7 +53,7 @@ class RoverSpec extends FlatSpec with TableDrivenPropertyChecks  {
     )
 
   forAll(moveForwardSamples) { (commands: String, output: String) =>
-    val result = new Rover().execute(commands)
+    val result = new Rover(grid).execute(commands)
 
     assert(result == output)
   }
@@ -76,7 +76,7 @@ class RoverSpec extends FlatSpec with TableDrivenPropertyChecks  {
     )
 
   forAll(moveBackwardSamples) { (commands: String, output: String) =>
-    val result = new Rover().execute(commands)
+    val result = new Rover(grid).execute(commands)
 
     assert(result == output)
   }

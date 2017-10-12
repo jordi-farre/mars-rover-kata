@@ -1,13 +1,11 @@
 
-class Rover {
+class Rover(grid: Grid) {
 
   var direction = 'N'
 
   var x: Int = 0
 
   var y: Int = 0
-
-  var directions = List('N', 'E', 'S', 'W')
 
   val MAX_WIDTH = 10
 
@@ -28,20 +26,14 @@ class Rover {
   }
 
   def turnRight(): Unit = {
-    val actualDirectionIndex = directions.indexOf(direction)
-    direction = directions((actualDirectionIndex + 1) % 4)
+    direction = grid.right(direction)
   }
 
   def turnLeft(): Unit = {
-    val actualDirectionIndex = directions.indexOf(direction)
-    if (actualDirectionIndex == 0) {
-      direction = directions.last
-    } else {
-      direction = directions(actualDirectionIndex - 1)
-    }
+    direction = grid.left(direction)
   }
 
-  def move(command: Char) = {
+  def move(command: Char): Unit = {
     if ((command == 'F' && direction == 'E') || (command == 'B' && direction == 'W'))
       x = (x + 1) % MAX_WIDTH
     if ((command == 'F' && direction == 'S') || (command == 'B' && direction == 'N'))
