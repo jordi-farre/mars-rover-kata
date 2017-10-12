@@ -58,6 +58,29 @@ class RoverSpec extends FlatSpec with TableDrivenPropertyChecks  {
     assert(result == output)
   }
 
+  val moveBackwardSamples =
+    Table(
+      ("commands", "output"),
+      ("RB", "9:0:E"),
+      ("RBBBBBB", "4:0:E"),
+      ("RBBBBBBBBBB", "0:0:E"),
+      ("RRB", "0:9:S"),
+      ("RRBBB", "0:7:S"),
+      ("RRBBBBBBBBBB", "0:0:S"),
+      ("LB", "1:0:W"),
+      ("LBBBB", "4:0:W"),
+      ("LBBBBBBBBBB", "0:0:W"),
+      ("B", "0:1:N"),
+      ("BBB", "0:3:N"),
+      ("BBBBBBBBBB", "0:0:N")
+    )
+
+  forAll(moveBackwardSamples) { (commands: String, output: String) =>
+    val result = new Rover().execute(commands)
+
+    assert(result == output)
+  }
+
 
 
 }
