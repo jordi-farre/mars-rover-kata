@@ -18,10 +18,10 @@ class Rover(grid: Grid) {
     if (!obstacleFound) {
       if (command == 'R') turnRight()
       if (command == 'L') turnLeft()
-      if (command == 'F' || command == 'B') move(command)
+      if (command == 'F') moveForward(command)
+      if (command == 'B') moveBackward(command)
     }
-    val prefix = if (obstacleFound) "O:" else ""
-    s"$prefix${position.x}:${position.y}:${direction.value}"
+    formatResult()
   }
 
   def turnRight(): Unit = {
@@ -32,17 +32,24 @@ class Rover(grid: Grid) {
     direction = grid.left(direction)
   }
 
-  def move(command: Char): Unit = {
-    var newPosition: Position = Position(0, 0)
-    if (command == 'F')
-      newPosition = direction.forward(position)
-    if (command == 'B')
-      newPosition = direction.backward(position)
-    if (grid.obstacleIn(newPosition)) {
-      obstacleFound = true
-    } else {
-      position = newPosition
-    }
+  def moveForward(command: Char): Unit = {
+    val newPosition: Position = direction.forward(position)
+    checkObstacles(newPosition)
+  }
+
+  def moveBackward(command: Char): Unit = {
+    val newPosition: Position = direction.backward(position)
+    checkObstacles(newPosition)
+  }
+
+  def checkObstacles(newPosition: Position): Unit = {
+    if (grid.obstacleIn(newPosition)) obstacleFound = true
+    else position = newPosition
+  }
+
+  def formatResult(): String = {
+    val prefix = if (obstacleFound) "O:" else ""
+    s"$prefix${position.x}:${position.y}:${direction.value}"
   }
 
 }
